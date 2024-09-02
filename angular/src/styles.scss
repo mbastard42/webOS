@@ -1,0 +1,17 @@
+$c1: black;
+$c2: rgb(104, 96, 96);
+
+$green: rgb(25, 173, 25);
+$orange: orange;
+$red: red;
+
+* {
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh; width: 100vw;
+    overflow: hidden;
+    background-color: palevioletred;
+}

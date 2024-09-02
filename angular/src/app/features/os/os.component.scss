@@ -1,0 +1,37 @@
+$tb-size: 80px;
+$tb-pd: 5px;
+$tb-bmg: 10px;
+
+$tb-bd-size: 2px;
+$tb-bd-clr: black;
+$tb-bd-rad: 25px;
+
+div#os {
+    height: 100%; width: 100%; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+}
+
+div#wallpaper {
+    position: absolute; top: 0; left: 0; z-index: -2;
+    height: 100%; width: 100%;
+}
+
+div#desktop {
+    position: absolute; top: 0; left: 0; z-index: -1;
+    height: calc(100% - $tb-size - ($tb-bd-size * 2) - $tb-bmg); width: 100%;
+}
+
+div#view {
+    position: absolute; top: 0; left: 0; z-index: 0;
+    height: 100%; width: 100%;
+    padding-right: 1px; padding-bottom: 1px;
+    overflow: hidden;
+}
+
+nav#taskbar {
+    height: $tb-size; overflow: hidden;
+    margin-bottom: $tb-bmg; padding: calc($tb-pd * 2) calc($tb-pd) calc($tb-pd * 2) calc($tb-pd);
+    background: transparentize(black, 0.5); backdrop-filter: blur(7px);
+    border: solid $tb-bd-size $tb-bd-clr; border-radius: $tb-bd-rad;
+    display: flex; justify-content: center; align-items: center;
+}

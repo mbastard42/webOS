@@ -1,0 +1,285 @@
+@import '../../../styles.scss';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300&display=swap');
+
+$win-bd-clr: $c1;
+$win-bd-size: 2px;
+$win-bd-rad: 12px;
+
+$grab: 5px;
+$headHeight: 45px;
+
+* {
+    user-select: none;
+    box-sizing: border-box;
+}
+
+div#container {
+    position: absolute;
+    pointer-events: auto;
+}
+
+div#container.unchanged {
+    transition:
+        top 150ms ease-in-out 150ms,
+        right 150ms ease-in-out 150ms,
+        height 150ms ease-in-out,
+        width 150ms ease-in-out;
+}
+
+$postchange: cubic-bezier(0, 1.95, .25, .75);
+
+div#container.postchange {
+    transition:
+        top 300ms $postchange,
+        right 300ms $postchange,
+        height 300ms $postchange,
+        width 300ms $postchange;
+}
+
+div#container.grabbed {
+    transition:
+        height .2s ease-in-out,
+        width .2s ease-in-out;
+}
+
+div#container.full-screen {
+    position: absolute; top: 0 !important; right: calc(-1 * $grab) !important;
+    height: 100% !important; width: calc(100% + $grab) !important;
+    padding-right: $grab;
+    transition:
+        top 150ms ease-in-out,
+        right 150ms ease-in-out,
+        height 150ms ease-in-out 150ms,
+        width 150ms ease-in-out 150ms;
+}
+
+div#grab {
+    position: absolute;
+    height: 100%; width: 100%;
+}
+
+div#grab.full-screen {
+    display: none;
+}
+
+div.corner {
+    position: absolute;
+    height: calc($grab + $win-bd-rad); width: calc($grab + $win-bd-rad);
+}
+
+div#top-left {
+    top: 0; left: 0;
+    height: $win-bd-rad;
+    cursor: nw-resize;
+}
+
+div#top-right {
+    top: 0; right: 0;
+    height: $win-bd-rad;
+    cursor: ne-resize;
+}
+
+div#bottom-left {
+    bottom: 0; left: 0;
+    cursor: sw-resize;
+}
+
+div#bottom-right {
+    bottom: 0; right: 0;
+    cursor: se-resize;
+}
+
+div#left-grab {
+    position: absolute; top: $win-bd-rad; left: 0;
+    height: calc(100% - $grab - $win-bd-rad * 2); width: $grab;
+    cursor: w-resize;
+}
+
+div#right-grab {
+    position: absolute; top: $win-bd-rad; right: 0;
+    height: calc(100% - $grab - $win-bd-rad * 2); width: $grab;
+    cursor: e-resize;
+}
+
+div#bottom-grab {
+    position: absolute; bottom: 0; left: calc($grab + $win-bd-rad);
+    height: $grab; width: calc(100% - ($grab + $win-bd-rad) * 2);
+    cursor: s-resize;
+}
+
+div#window {
+    height: calc(100% - $grab); width: calc(100% - $grab * 2); overflow: hidden;
+    margin: $grab; margin-top: 0;
+    border: solid $win-bd-size $win-bd-clr; border-radius: $win-bd-rad 0;
+    transition: border-radius 150ms ease-in-out 75ms;
+}
+
+div#window.full-screen {
+    height: 100%; width: 100%;
+    margin: 0; border-radius: 0;
+}
+
+div#head {
+    height: $headHeight; width: 100%;
+    border-bottom: solid $win-bd-size $win-bd-clr;
+    display: flex; justify-content: flex-end;
+}
+
+nav#nav-bar {
+    position: relative;
+    height: 100%; flex: 1;
+    background: linear-gradient(to left, $c1, transparentize($c1, .5));
+    display: flex;
+}
+
+div#top-grab {
+    position: absolute; left: $win-bd-rad;
+    height: $grab; width: calc(100% - $win-bd-rad);
+    cursor: n-resize;
+}
+
+div#top-grab.full-screen {
+    display: none;
+}
+
+div#move-grab {
+    height: 100%; flex: 1;
+    cursor: grab;
+}
+
+div#move-grab.grabbed {
+    cursor: grabbing;
+}
+
+nav#win-manager {
+    pointer-events: all;
+    height: 100%; width: calc($headHeight * 3);
+    display: flex; align-items: center; justify-content: space-around;
+}
+
+$icon-size: 6px;
+$min-ratio: 1.8;
+
+button {
+    position: relative;
+    height: 100%; width: 100%; 
+    background: $c1; border: solid 1px $c1;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background-color .5s cubic-bezier(0, 1.95, .25, .75);
+}
+
+button:hover {
+    background-color: transparentize($c1, .15);
+    animation-direction: reverse;
+}
+
+div.icon {
+    position: relative;
+    height: 13px; aspect-ratio: 1;
+    transform: rotateZ(45deg);
+    transition: height .3s cubic-bezier(1, -1.35, .25, 1.35);
+}
+
+button:hover div.icon {
+    height: 20px;
+    animation-direction: reverse;
+}
+
+button:hover div.minus,
+button:hover div.max {
+    transition: border-color .2s ease-in .1s;
+}
+
+div#minus div.minus {
+    position: absolute;
+    width: 0; height: 0;
+    border-style: solid;
+}
+
+div.minus#top {
+    top: 0; left: 0;
+    border-width: calc($icon-size * $min-ratio) calc($icon-size * $min-ratio) 0 0;
+    border-color: $c2 transparent transparent transparent;
+}
+
+button:hover div.minus#top {
+    border-color: $orange transparent transparent transparent !important;
+}
+
+div.minus#bottom {
+    bottom: 0; right: 0;
+    border-width: 0 0 calc($icon-size * $min-ratio) calc($icon-size * $min-ratio);
+    border-color: transparent transparent $c2 transparent;
+}
+
+button:hover div.minus#bottom {
+    border-color: transparent transparent $orange transparent !important;
+}
+
+div#max div.max {
+    position: absolute;
+    width: 0; height: 0;
+    border-style: solid;
+}
+
+div.max#top {
+    top: 0; left: 0;
+    border-width: $icon-size $icon-size 0 0;
+    border-color: $c2 transparent transparent transparent;
+}
+
+button:hover div.max#top {
+    border-color: $green transparent transparent transparent !important;
+}
+
+div.max#left {
+    bottom: 0; left: 0;
+    border-width: $icon-size 0 0 $icon-size;
+    border-color: transparent transparent transparent $c2;
+}
+
+button:hover div.max#left {
+    border-color: transparent transparent transparent $green !important;
+}
+
+div.max#right {
+    top: 0; right: 0;
+    border-width: 0 $icon-size $icon-size 0;
+    border-color: transparent $c2 transparent transparent;
+}
+
+button:hover div.max#right {
+    border-color: transparent $green transparent transparent !important;
+}
+
+div.max#bottom {
+    bottom: 0; right: 0;
+    border-width: 0 0 $icon-size $icon-size;
+    border-color: transparent transparent $c2 transparent;
+}
+
+button:hover div.max#bottom {
+    border-color: transparent transparent $green transparent !important;
+}
+
+div#cross div.cross {
+    position: absolute;
+    height: 5px; aspect-ratio: 1;
+    background-color: $c2;   
+    transition: background-color .2s ease-in .1s;
+}
+
+button:hover div.cross {
+    background-color: $red !important;
+}
+
+div.cross#top { top: 0; left: 0; }
+div.cross#left { bottom: 0; left: 0; }
+div.cross#right { top: 0; right: 0; }
+div.cross#bottom { bottom: 0; right: 0; }
+
+div#content {
+    height: calc(100% - $headHeight); width: 100%;
+    background-color: transparentize($c1, .5);
+}

@@ -1,0 +1,15 @@
+div#icon {
+    height: 60px; aspect-ratio: 1; overflow: hidden;
+    margin-left: 5px; margin-right: 5px;
+    border: solid 2px black; border-radius: 16px;
+    cursor: pointer;
+    transition:
+        height 150ms ease-in-out,
+        margin-left 150ms ease-in-out,
+        margin-right 150ms ease-in-out,
+}
+
+div#icon:hover {
+    height: 64px;
+    margin-left: 3px; margin-right: 3px;
+}

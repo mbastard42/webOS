@@ -1,0 +1,60 @@
+<div #container id='container' (mousedown)="putForward()"
+    [ngClass]="[
+        fullScreen ? 'full-screen' : '',
+        !moveOrGrab() ? 'unchanged' : grabbing ? 'grabbed' : '',
+        postChange() ? 'postchange' : ''
+    ]"
+    [ngStyle]="{
+        'height': containerSize.y + 'px',
+        'width': containerSize.x + 'px',
+        'top': containerPos.y + 'px',
+        'right': containerPos.x + 'px',
+        'zIndex': zIndex,
+    }"
+>
+    <div id='grab' [ngClass]="[fullScreen ? 'full-screen' : '']">
+        <div id='top-right' class='corner' (mousedown)="resizeTR = true"></div>
+        <div id='right-grab' (mousedown)="resizeR = true"></div>
+        <div id='bottom-right' class='corner' (mousedown)="resizeRB = true"></div>
+        <div id='bottom-grab' (mousedown)="resizeB = true"></div>
+        <div id='bottom-left' class='corner' (mousedown)="resizeBL = true"></div>
+        <div id='left-grab' (mousedown)="resizeL = true"></div>
+        <div id='top-left'class='corner' (mousedown)="resizeTL = true"></div>
+    </div>
+    <div id='window' [ngClass]="[fullScreen ? 'full-screen' : '']">
+        <div id='head'>
+            <nav id='nav-bar'>
+                <div id='top-grab' [ngClass]="[fullScreen ? 'full-screen' : '']" (mousedown)="resizeT = true"></div>
+                <ng-content select="[nav]"></ng-content>
+                <div #grab id='move-grab' [ngClass]="[fullScreen ? 'full-screen' : grabbing ? 'grabbed' : '']" (mousedown)="grabbing = true" (dblclick)='reset()'></div>
+            </nav>
+            <nav id='win-manager'>
+                <button>
+                    <div id='minus' class='icon'>
+                        <div id='top' class='minus'></div>
+                        <div id='bottom' class='minus'></div>
+                    </div>
+                </button>
+                <button (click)='fullScreen = !fullScreen'>
+                    <div id='max' class='icon'>
+                        <div id='top' class='max'></div>
+                        <div id='left' class='max'></div>
+                        <div id='right' class='max'></div>
+                        <div id='bottom' class='max'></div>
+                    </div>
+                </button>
+                <button>
+                    <div id='cross' class='icon'>
+                        <div id='top' class='cross'></div>
+                        <div id='left' class='cross'></div>
+                        <div id='right' class='cross'></div>
+                        <div id='bottom' class='cross'></div>
+                    </div>
+                </button>
+            </nav>
+        </div>
+        <div id='content'>
+            <ng-content select="[content]"></ng-content>
+        </div>
+    </div>
+</div>
